@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Agency</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Esigned</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">What we do</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Welcome to</h2>
+            <h1>Web dự đoán giá nhà</h1>
+            <button class="contact-button" onclick="showModal()">Định giá nhà ngay</button>
+        </div>
+    </section>
+    <div class="modal" id="prediction-modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Nhập thông tin nhà của bạn để định giá</h2>
+            <form id="prediction-form">
+                <label for="bedrooms">Số phòng ngủ:</label>
+                <div id="bedrooms-slider"></div>
+                <input type="hidden" id="bedrooms" name="bedrooms" required>
+                <span id="bedrooms-value"></span><br><br>
+                
+                <label for="bathrooms">Số phòng tắm:</label>
+                <div id="bathrooms-slider"></div>
+                <input type="hidden" id="bathrooms" name="bathrooms" required>
+                <span id="bathrooms-value"></span><br><br>
+                
+                <label for="sqft_living">Diện tích sử dụng (sqft):</label>
+                <div id="sqft_living-slider"></div>
+                <input type="hidden" id="sqft_living" name="sqft_living" required>
+                <span id="sqft_living-value"></span><br><br>
+                
+                <label for="sqft_lot">Diện tích đất (sqft):</label>
+                <div id="sqft_lot-slider"></div>
+                <input type="hidden" id="sqft_lot" name="sqft_lot" required>
+                <span id="sqft_lot-value"></span><br><br>
+                
+                <label for="floors">Số tầng:</label>
+                <div id="floors-slider"></div>
+                <input type="hidden" id="floors" name="floors" required>
+                <span id="floors-value"></span><br><br>
+
+                <label for="waterfront">Có mặt nước (0 hoặc 1):</label>
+                <div id="waterfront-slider"></div>
+                <input type="hidden" id="waterfront" name="waterfront" required>
+                <span id="waterfront-value"></span><br><br>
+                
+                <label for="view">Tầm nhìn (0-4):</label>
+                <div id="view-slider"></div>
+                <input type="hidden" id="view" name="view" required>
+                <span id="view-value"></span><br><br>
+                
+                <label for="condition">Điều kiện nhà (1-5):</label>
+                <div id="condition-slider"></div>
+                <input type="hidden" id="condition" name="condition" required>
+                <span id="condition-value"></span><br><br>
+                
+                <label for="grade">Đánh giá nhà (1-13):</label>
+                <div id="grade-slider"></div>
+                <input type="hidden" id="grade" name="grade" required>
+                <span id="grade-value"></span><br><br>
+                
+                <label for="yr_built">Năm xây dựng:</label>
+                <div id="yr_built-slider"></div>
+                <input type="hidden" id="yr_built" name="yr_built" required>
+                <span id="yr_built-value"></span><br><br>
+
+                <label for="lat">Vĩ độ:</label>
+                <div id="lat-slider"></div>
+                <input type="hidden" id="lat" name="lat" required>
+                <span id="lat-value"></span><br><br>
+                
+                <label for="long">Kinh độ:</label>
+                <div id="long-slider"></div>
+                <input type="hidden" id="long" name="long" required>
+                <span id="long-value"></span><br><br>
+                
+                <label for="sqft_above">Diện tích trên mặt đất (sqft):</label>
+                <div id="sqft_above-slider"></div>
+                <input type="hidden" id="sqft_above" name="sqft_above" required>
+                <span id="sqft_above-value"></span><br><br>
+                
+                <label for="sqft_basement">Diện tích tầng hầm (sqft):</label>
+                <div id="sqft_basement-slider"></div>
+                <input type="hidden" id="sqft_basement" name="sqft_basement" required>
+                <span id="sqft_basement-value"></span><br><br>
+                
+                <label for="yr_renovated">Năm cải tạo:</label>
+                <div id="yr_renovated-slider"></div>
+                <input type="hidden" id="yr_renovated" name="yr_renovated" required>
+                <span id="yr_renovated-value"></span><br><br>
+                
+                <label for="zipcode">Mã bưu điện:</label>
+                <div id="zipcode-slider"></div>
+                <input type="hidden" id="zipcode" name="zipcode" required>
+                <span id="zipcode-value"></span><br><br>
+                
+                <label for="sqft_living15">Diện tích sử dụng của 15 căn nhà gần nhất (sqft):</label>
+                <div id="sqft_living15-slider"></div>
+                <input type="hidden" id="sqft_living15" name="sqft_living15" required>
+                <span id="sqft_living15-value"></span><br><br>
+                
+                <label for="sqft_lot15">Diện tích đất của 15 căn nhà gần nhất (sqft):</label>
+                <div id="sqft_lot15-slider"></div>
+                <input type="hidden" id="sqft_lot15" name="sqft_lot15" required>
+                <span id="sqft_lot15-value"></span><br><br>
+                
+                <button type="button" onclick="updatePrediction()">Dự đoán</button>
+            </form>
+            <h3 id="predicted-price">Giá nhà dự đoán: $0</h3>
+        </div>
+    </div>
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
